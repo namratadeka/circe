@@ -9,7 +9,7 @@ def init_wandb(cfg: dict, mode='online') -> None:
     for key in cfg:
         cfg[key] = cfg[key].__dict__
 
-    run = wandb.init(entity="causal-hsic", project="causal-rep", name=cfg["exp_cfg"]["run_name"], 
+    run = wandb.init(project="circe", name=cfg["exp_cfg"]["run_name"], 
                notes=cfg["exp_cfg"]["description"], config=cfg, mode=mode)
     print(f'Wandb run: {run.id}')
 
