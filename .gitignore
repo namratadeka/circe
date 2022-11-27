@@ -1,3 +1,6 @@
+wandb/
+results/
+jobs/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -126,4 +129,8 @@ venv.bak/
 dmypy.json
 
 # Pyre type checker
+<<<<<<< HEAD
 .pyre/
+=======
+.pyre/
+>>>>>>> 04f32af (circe)

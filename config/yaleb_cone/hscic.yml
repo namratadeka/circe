@@ -1,0 +1,76 @@
+experiment:
+  description: regression w/ CIRCE regularization
+  output_location: results/yaleb_cone/
+  load: null
+  resume: false
+
+data:
+  data_key: yale-b
+
+  train: data/ExtendedYaleB/train
+  val: data/ExtendedYaleB/val
+  val_ood: data/ExtendedYaleB/val
+  test: data/ExtendedYaleB/test
+  test_ood: data/ExtendedYaleB/test
+  nl_type: mod
+  noise: 2
+  holdout_ratio: 0.1
+  batch_size: 256
+  num_workers: 16
+  regress: False
+
+model:
+  model_key: regressor
+  trainer_key: hscic
+  modes:
+    - train
+    - val
+    - val_ood
+    - test
+    - test_ood
+  epochs: 500
+  patience: 50
+  lamda: 10
+  ridge_lambda: 1.0
+  kernel_ft:
+    gaussian:
+        sigma2: 0.01
+  kernel_y:
+    gaussian:
+        sigma2: 0.01
+  kernel_z:
+    gaussian:
+        sigma2: 0.01
+  n_last_reg_layers: 1
+  zy_cov: True
+  loo_cond_mean: True
+  biased: False
+
+  network:
+    featurizer: resnet18
+
+    fc1:
+      - Linear:
+          in_features: 512
+          out_features: 128
+      - LeakyReLU:
+          inplace: True
+
+    fc2:
+      - Linear:
+          in_features: 128
+          out_features: 64
+
+    target:
+      - Linear:
+          in_features: 64
+          out_features: 1
+
+  optimizer:
+    AdamW:
+      lr: 0.001
+      weight_decay: 0.01
+
+  scheduler:
+    CosineAnnealingLR:
+      T_max: 500
